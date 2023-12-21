@@ -30,7 +30,7 @@ export class AppRelationshipFacade extends AppRuntimeFacade {
 
     public async renderRelationshipItems(id: string, limit: number): Promise<UserfriendlyResult<RelationshipItemsDVO>> {
         const messagesResult = await this.transportServices.messages.getMessages({
-            query: { relationshipIds: id }
+            query: { "recipients.relationshipId": id }
         })
         if (messagesResult.isError) {
             return await this.parseErrorResult<RelationshipItemsDVO>(messagesResult)
