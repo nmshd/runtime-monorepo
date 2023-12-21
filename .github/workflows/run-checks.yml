@@ -1,0 +1,12 @@
+name: Run Checks
+
+on:
+  push:
+    branches-ignore: [main, release/**]
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash .ci/runChecks.sh
