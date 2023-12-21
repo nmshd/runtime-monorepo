@@ -1,8 +1,9 @@
 {
   "author": "j&s-soft GmbH",
-  "dependencies": {},
   "description": "The Enmeshed Monorepo.",
-  "devDependencies": {},
+  "devDependencies": {
+    "@js-soft/eslint-config-ts": "^1.6.6"
+  },
   "files": [],
   "homepage": "https://enmeshed.eu",
   "license": "MIT",
