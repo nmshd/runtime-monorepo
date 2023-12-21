@@ -8,7 +8,14 @@ import {
     Response,
     ResponseWrapper
 } from "@vermascht/content"
-import { AccountController, CoreDate, Message, Relationship, RelationshipTemplate, Transport } from "@vermascht/transport"
+import {
+    AccountController,
+    CoreDate,
+    Message,
+    Relationship,
+    RelationshipTemplate,
+    Transport
+} from "@vermascht/transport"
 import { expect } from "chai"
 import { TestUtil } from "../../core/TestUtil"
 import { RequestsIntegrationTest } from "./RequestsIntegrationTest"

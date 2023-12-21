@@ -10,7 +10,16 @@ module.exports = {
     },
     plugins: [
         new CopyWebpackPlugin({
-            patterns: [{"from":"../../node_modules/@vermascht/runtime/lib-web"},{"from":"../../node_modules/@vermascht/consumption/lib-web"},{"from":"../../node_modules/@vermascht/content/lib-web"},{"from":"../../node_modules/@vermascht/transport/lib-web"},{"from":"../../node_modules/@nmshd/crypto/lib-web"},{"from":"../../node_modules/@js-soft/ts-serval/lib-web"},{"from":"../../node_modules/lokijs/build/lokijs.min.js"},{"from":"../../node_modules/js-logger/src/logger.js"}]
+            patterns: [
+                { from: "../../node_modules/@vermascht/runtime/lib-web" },
+                { from: "../../node_modules/@vermascht/consumption/lib-web" },
+                { from: "../../node_modules/@vermascht/content/lib-web" },
+                { from: "../../node_modules/@vermascht/transport/lib-web" },
+                { from: "../../node_modules/@nmshd/crypto/lib-web" },
+                { from: "../../node_modules/@js-soft/ts-serval/lib-web" },
+                { from: "../../node_modules/lokijs/build/lokijs.min.js" },
+                { from: "../../node_modules/js-logger/src/logger.js" }
+            ]
         })
     ],
     entry: {

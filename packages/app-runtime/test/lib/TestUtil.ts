@@ -3,7 +3,13 @@ import { SimpleLoggerFactory } from "@js-soft/simple-logger"
 import { Serializable } from "@js-soft/ts-serval"
 import { Result, sleep, SubscriptionTarget } from "@js-soft/ts-utils"
 import { AppRuntime, LocalAccountDTO, LocalAccountSession } from "@vermascht/app-runtime"
-import { FileDTO, MessageDTO, RelationshipDTO, RelationshipTemplateDTO, SyncEverythingResponse } from "@vermascht/runtime"
+import {
+    FileDTO,
+    MessageDTO,
+    RelationshipDTO,
+    RelationshipTemplateDTO,
+    SyncEverythingResponse
+} from "@vermascht/runtime"
 import { CoreDate, Realm, TransportLoggerFactory } from "@vermascht/transport"
 import { expect } from "chai"
 import { LogLevel } from "typescript-logging"

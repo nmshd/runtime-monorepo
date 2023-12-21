@@ -1,4 +1,4 @@
-import { DataEvent } from "@vermascht/runtime";
+import { DataEvent } from "@vermascht/runtime"
 
 export class AccountSelectedEvent extends DataEvent<{ localAccountId: string; address: string }> {
     public static readonly namespace = "runtime.accountSelected"

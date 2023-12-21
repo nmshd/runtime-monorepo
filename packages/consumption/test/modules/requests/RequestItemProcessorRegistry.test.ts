@@ -1,4 +1,8 @@
-import { ConsumptionController, GenericRequestItemProcessor, RequestItemProcessorRegistry } from "@vermascht/consumption"
+import {
+    ConsumptionController,
+    GenericRequestItemProcessor,
+    RequestItemProcessorRegistry
+} from "@vermascht/consumption"
 import { AcceptResponseItem, IRequestItem, RejectResponseItem, RequestItem } from "@vermascht/content"
 import { AccountController, CoreAddress, IdentityController } from "@vermascht/transport"
 import { expect } from "chai"

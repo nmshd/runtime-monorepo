@@ -1,31 +1,31 @@
 {
-  "name": "monorepo",
-  "private": true,
-  "description": "The Enmeshed Monorepo.",
-  "homepage": "https://enmeshed.eu",
-  "license": "MIT",
-  "author": "j&s-soft GmbH",
-  "workspaces": {
-    "nohoist": [
-      "**/@types/mocha",
-      "**/@types/jest**"
-    ],
-    "packages": [
-      "packages/transport",
-      "packages/content",
-      "packages/consumption",
-      "packages/runtime",
-      "packages/app-runtime"
-    ]
-  },
-  "scripts": {
-    "lint:eslint": "eslint --ext .ts ./packages/*/src ./packages/*/test",
-    "lint:prettier": "prettier --check ."
-  },
-  "devDependencies": {
-    "@js-soft/eslint-config-ts": "^1.6.6",
-    "eslint": "^8.56.0",
-    "prettier": "^3.1.1",
-    "typescript": "^5.3.3"
-  }
+    "name": "monorepo",
+    "private": true,
+    "description": "The Enmeshed Monorepo.",
+    "homepage": "https://enmeshed.eu",
+    "license": "MIT",
+    "author": "j&s-soft GmbH",
+    "workspaces": {
+        "nohoist": [
+            "**/@types/mocha",
+            "**/@types/jest**"
+        ],
+        "packages": [
+            "packages/transport",
+            "packages/content",
+            "packages/consumption",
+            "packages/runtime",
+            "packages/app-runtime"
+        ]
+    },
+    "scripts": {
+        "lint:eslint": "eslint --ext .ts ./packages/*/src ./packages/*/test",
+        "lint:prettier": "prettier --check ."
+    },
+    "devDependencies": {
+        "@js-soft/eslint-config-ts": "^1.6.6",
+        "eslint": "^8.56.0",
+        "prettier": "^3.1.1",
+        "typescript": "^5.3.3"
+    }
 }

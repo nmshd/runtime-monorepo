@@ -1,5 +1,13 @@
 import { serialize, type, validate } from "@js-soft/ts-serval"
-import { CoreAddress, CoreDate, CoreId, CoreSerializable, ICoreDate, ICoreSerializable, Realm } from "@vermascht/transport"
+import {
+    CoreAddress,
+    CoreDate,
+    CoreId,
+    CoreSerializable,
+    ICoreDate,
+    ICoreSerializable,
+    Realm
+} from "@vermascht/transport"
 
 export interface ILocalAccount extends ICoreSerializable {
     id: CoreId

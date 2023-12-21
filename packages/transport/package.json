@@ -31,8 +31,6 @@
         "bundle:test": "webpack --stats-all --config webpack.test.config.js",
         "cdep": "tsc && madge --circular dist",
         "lint": "npm run lint:prettier && npm run lint:eslint && npm run lint:tsc",
-        "lint:eslint": "eslint --ext ts ./src ./test",
-        "lint:prettier": "prettier --check .",
         "lint:tsc": "tsc --noEmit && tsc -p test/tsconfig.json --noEmit",
         "test": "npm run test:node && npm run test:web && npm run test:web:min",
         "test:ci": "npm run test:node && npm run test:web:min",
