@@ -1,5 +1,5 @@
 {
-    "extends": ["@js-soft/ts", "@js-soft/ts/mocha"],
+    "extends": ["@js-soft/ts"],
     "parserOptions": {
         "project": ["./packages/*/tsconfig.json", "./packages/*/test/tsconfig.json"]
     },
