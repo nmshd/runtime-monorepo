@@ -1,0 +1,244 @@
+import {
+    ConsumptionController,
+    ConsumptionIds,
+    CreateAttributeRequestItemProcessor,
+    LocalAttribute,
+    ValidationResult
+} from "@vermascht/consumption"
+import { CreateAttributeAcceptResponseItem, CreateAttributeRequestItem, ResponseItemResult } from "@vermascht/content"
+import { AccountController, CoreAddress, CoreId, Transport } from "@vermascht/transport"
+import { expect } from "chai"
+import { TestUtil } from "../../../../core/TestUtil"
+import { TestObjectFactory } from "../../testHelpers/TestObjectFactory"
+import { TestIdentity } from "./TestIdentity"
+
+export class Context {
+    public accountController: AccountController
+    public consumptionController: ConsumptionController
+    public processor: CreateAttributeRequestItemProcessor
+
+    public givenResponseItem: CreateAttributeAcceptResponseItem
+    public givenRequestItem: CreateAttributeRequestItem
+    public canCreateResult: ValidationResult
+    public peerAddress: CoreAddress
+    public responseItemAfterAction: CreateAttributeAcceptResponseItem
+    public createdAttributeAfterAction: LocalAttribute
+
+    private constructor(consumptionController: ConsumptionController) {
+        this.consumptionController = consumptionController
+        this.accountController = consumptionController.accountController
+        this.peerAddress = CoreAddress.from("peer")
+        this.processor = new CreateAttributeRequestItemProcessor(this.consumptionController)
+    }
+
+    public static async init(transport: Transport): Promise<Context> {
+        await transport.init()
+        const account = (await TestUtil.provideAccounts(transport, 1))[0]
+        return new Context(account.consumptionController)
+    }
+
+    public fillTestIdentitiesOfObject(value: any): void {
+        if (value === null) {
+            return
+        }
+
+        if (typeof value !== "object") return
+
+        for (const propertyName in value) {
+            const propertyValue = value[propertyName]
+            if (typeof propertyValue === "object") {
+                this.fillTestIdentitiesOfObject(propertyValue)
+            }
+
+            if (propertyValue instanceof CoreAddress) {
+                value[propertyName] = this.translateTestIdentity(propertyValue)
+            }
+
+            if (typeof propertyValue === "string") {
+                value[propertyName] = this.translateTestIdentityToString(propertyValue)
+            }
+        }
+    }
+
+    public translateTestIdentity(testIdentity: CoreAddress): CoreAddress | undefined {
+        switch (testIdentity.toString()) {
+            case TestIdentity.SENDER.toString():
+                return this.accountController.identity.address
+            case TestIdentity.RECIPIENT.toString():
+                return this.peerAddress
+            case TestIdentity.EMPTY.toString():
+                return CoreAddress.from("")
+            case TestIdentity.UNDEFINED.toString():
+                return undefined
+            case TestIdentity.SOMEONE_ELSE.toString():
+                return CoreAddress.from("someoneElse")
+            default:
+                return CoreAddress.from(testIdentity)
+        }
+    }
+
+    public translateTestIdentityToString(testIdentity: string): string | undefined {
+        return this.translateTestIdentity(CoreAddress.from(testIdentity))?.toString()
+    }
+}
+
+export class GivenSteps {
+    public constructor(private readonly context: Context) {}
+
+    public aRequestItemWithARelationshipAttribute(params: { attributeOwner: CoreAddress }): Promise<void> {
+        const attribute = TestObjectFactory.createRelationshipAttribute({
+            owner: this.context.translateTestIdentity(params.attributeOwner)
+        })
+        this.context.fillTestIdentitiesOfObject(attribute)
+
+        this.context.givenRequestItem = CreateAttributeRequestItem.from({
+            attribute: attribute,
+            mustBeAccepted: true
+        })
+        return Promise.resolve()
+    }
+
+    public aRequestItemWithAnIdentityAttribute(params: { attributeOwner: CoreAddress }): Promise<void> {
+        const attribute = TestObjectFactory.createIdentityAttribute({
+            owner: this.context.translateTestIdentity(params.attributeOwner)
+        })
+        this.context.fillTestIdentitiesOfObject(attribute)
+
+        this.context.givenRequestItem = CreateAttributeRequestItem.from({
+            attribute: attribute,
+            mustBeAccepted: true
+        })
+        return Promise.resolve()
+    }
+
+    public async aResponseItem(): Promise<void> {
+        this.context.givenResponseItem = CreateAttributeAcceptResponseItem.from({
+            attributeId: await ConsumptionIds.attribute.generate(),
+            result: ResponseItemResult.Accepted
+        })
+    }
+}
+
+export class ThenSteps {
+    public constructor(private readonly context: Context) {}
+
+    public theResultShouldBeASuccess(): Promise<void> {
+        expect(this.context.canCreateResult).to.be.a.successfulValidationResult()
+        return Promise.resolve()
+    }
+
+    public theResultShouldBeAnErrorWith(error: { message?: string | RegExp; code?: string }): Promise<void> {
+        expect(this.context.canCreateResult).to.be.an.errorValidationResult(error)
+        return Promise.resolve()
+    }
+
+    public async aLocalRepositoryAttributeIsCreated(): Promise<void> {
+        expect(this.context.responseItemAfterAction.attributeId).to.exist
+
+        const createdSharedAttribute = await this.context.consumptionController.attributes.getLocalAttribute(
+            this.context.responseItemAfterAction.attributeId
+        )
+
+        const createdRepositoryAttribute = await this.context.consumptionController.attributes.getLocalAttribute(
+            createdSharedAttribute!.shareInfo!.sourceAttribute!
+        )
+
+        expect(createdRepositoryAttribute).to.exist
+        expect(createdRepositoryAttribute!.shareInfo).to.be.undefined
+    }
+
+    public async aLocalIdentityAttributeWithShareInfoForThePeerIsCreated(): Promise<void> {
+        expect(this.context.responseItemAfterAction.attributeId).to.exist
+
+        const createdAttribute = await this.context.consumptionController.attributes.getLocalAttribute(
+            this.context.responseItemAfterAction.attributeId
+        )
+
+        expect(createdAttribute).to.exist
+        expect(createdAttribute!.shareInfo).to.exist
+        expect(createdAttribute!.shareInfo!.peer.toString()).to.equal(this.context.peerAddress.toString())
+        expect(createdAttribute!.shareInfo!.sourceAttribute).to.exist
+    }
+
+    public async aLocalRelationshipAttributeWithShareInfoForThePeerIsCreated(): Promise<void> {
+        expect(this.context.responseItemAfterAction.attributeId).to.exist
+
+        const createdAttribute = await this.context.consumptionController.attributes.getLocalAttribute(
+            this.context.responseItemAfterAction.attributeId
+        )
+
+        expect(createdAttribute).to.exist
+        expect(createdAttribute!.shareInfo).to.exist
+        expect(createdAttribute!.shareInfo!.peer.toString()).to.equal(this.context.peerAddress.toString())
+        expect(createdAttribute!.shareInfo!.sourceAttribute).to.be.undefined
+    }
+
+    public theCreatedAttributeHasTheAttributeIdFromTheResponseItem(): Promise<void> {
+        expect(this.context.createdAttributeAfterAction.id.toString()).to.equal(
+            this.context.givenResponseItem.attributeId.toString()
+        )
+
+        return Promise.resolve()
+    }
+
+    public theCreatedAttributeHasTheSameContentAsTheAttributeFromTheRequestItem(): Promise<void> {
+        expect(this.context.createdAttributeAfterAction.content.toJSON()).to.deep.equal(
+            this.context.givenRequestItem.attribute.toJSON()
+        )
+
+        return Promise.resolve()
+    }
+}
+
+export class WhenSteps {
+    public constructor(private readonly context: Context) {}
+
+    public async iCallCanCreateOutgoingRequestItemWith(
+        partialRequestItem: Partial<CreateAttributeRequestItem>,
+        recipient: CoreAddress = TestIdentity.RECIPIENT
+    ): Promise<void> {
+        partialRequestItem.mustBeAccepted ??= true
+        partialRequestItem.attribute ??= TestObjectFactory.createIdentityAttribute({
+            owner: this.context.accountController.identity.address
+        })
+
+        partialRequestItem.attribute.owner = this.context.translateTestIdentity(partialRequestItem.attribute.owner)!
+
+        const requestItem = CreateAttributeRequestItem.from(partialRequestItem as CreateAttributeRequestItem)
+
+        this.context.fillTestIdentitiesOfObject(requestItem)
+
+        this.context.canCreateResult = await this.context.processor.canCreateOutgoingRequestItem(
+            requestItem,
+            null!,
+            this.context.translateTestIdentity(recipient)
+        )
+    }
+
+    public async iCallAccept(): Promise<void> {
+        this.context.responseItemAfterAction = await this.context.processor.accept(
+            this.context.givenRequestItem,
+            null!,
+            {
+                id: CoreId.from("request-id"),
+                peer: this.context.peerAddress
+            }
+        )
+    }
+
+    public async iCallApplyIncomingResponseItem(): Promise<void> {
+        await this.context.processor.applyIncomingResponseItem(
+            this.context.givenResponseItem,
+            this.context.givenRequestItem,
+            {
+                id: CoreId.from("request-id"),
+                peer: this.context.peerAddress
+            }
+        )
+
+        this.context.createdAttributeAfterAction =
+            (await this.context.consumptionController.attributes.getLocalAttribute(
+                this.context.givenResponseItem.attributeId
+            ))!
+    }
+}

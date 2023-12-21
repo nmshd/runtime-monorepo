@@ -1,0 +1,20 @@
+name: Test
+
+on:
+  push:
+    branches-ignore: [main, release/**]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: browser-actions/setup-chrome@latest
+      - run: bash .ci/build.sh
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          COMMIT_HASH: ${{ github.sha }}
+      - run: bash .ci/test.sh

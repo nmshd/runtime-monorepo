@@ -1,0 +1,28 @@
+services:
+  transportlib-mongo:
+    container_name: transportlib-mongo
+    image: mongo
+    logging:
+      driver: "none"
+    ports:
+      - 27020:27017
+
+  transportlib-postgres:
+    image: postgres
+    container_name: transportlib-ferretdb-postgres
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ferretdb
+
+  transportlib-ferret:
+    image: ghcr.io/ferretdb/ferretdb:latest
+    container_name: transportlib-ferretdb
+    ports:
+      - "27025:27017"
+    environment:
+      FERRETDB_POSTGRESQL_URL: postgres://user:password@transportlib-ferretdb-postgres:5432/ferretdb
+      FERRETDB_TELEMETRY: disable
+      FERRETDB_LOG_LEVEL: error
+    depends_on:
+      - transportlib-postgres

@@ -1,0 +1,42 @@
+name: Test
+
+on:
+  push:
+    branches-ignore: [main, release/**]
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash .ci/runChecks.sh
+
+  test-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - uses: browser-actions/setup-chrome@latest
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:web
+        env:
+          NMSHD_TEST_BASEURL: ${{ secrets.CNS_NMSHD_TEST_BASEURL }}
+          NMSHD_TEST_CLIENTID: ${{ secrets.CNS_NMSHD_TEST_CLIENTID }}
+          NMSHD_TEST_CLIENTSECRET: ${{ secrets.CNS_NMSHD_TEST_CLIENTSECRET }}
+
+  test-node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run test:node
+        env:
+          NMSHD_TEST_BASEURL: ${{ secrets.CNS_NMSHD_TEST_BASEURL }}
+          NMSHD_TEST_CLIENTID: ${{ secrets.CNS_NMSHD_TEST_CLIENTID }}
+          NMSHD_TEST_CLIENTSECRET: ${{ secrets.CNS_NMSHD_TEST_CLIENTSECRET }}

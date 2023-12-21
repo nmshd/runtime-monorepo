@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "target": "es2021",
+        "module": "commonjs",
+        "sourceMap": true,
+        "declaration": true,
+        "outDir": "../lib-test",
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "emitDecoratorMetadata": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": false,
+        "downlevelIteration": true,
+        "noImplicitOverride": true,
+        "lib": ["es2021", "dom"],
+        "typeRoots": ["../node_modules/@types"],
+        "baseUrl": "../",
+        "paths": {
+            "chaimodule": ["test/types/globalsals"],
+            "@vermascht/content": ["src"],
+            "@js-soft/ts-serval": ["node_modules/@js-soft/ts-serval"]
+        }
+    },
+    "include": ["**/*.ts"],
+    "exclude": []
+}

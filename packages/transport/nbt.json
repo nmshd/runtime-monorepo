@@ -1,0 +1,23 @@
+{
+    "testFolder": "./lib-web",
+    "runners": [
+        {
+            "dependencies": [
+                "logger.js",
+                "lokijs.min.js",
+                "tsserval.js",
+                "nmshd.crypto.js",
+                "nmshd.transport.js",
+                "nmshd.transport.test.js"
+            ],
+            "globals": ["Logger", "loki", "TSServal", "NMSHDCrypto", "NMSHDTransport", "NMSHDTest"]
+        }
+    ],
+    "proxies": [
+        {
+            "local": "/svc",
+            "remote": "{{NMSHD_TEST_BASEURL}}"
+        }
+    ],
+    "additionalScripts": []
+}

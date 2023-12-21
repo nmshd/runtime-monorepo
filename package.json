@@ -1,0 +1,26 @@
+{
+  "author": "j&s-soft GmbH",
+  "dependencies": {},
+  "description": "The Enmeshed Monorepo.",
+  "devDependencies": {},
+  "files": [],
+  "homepage": "https://enmeshed.eu",
+  "license": "MIT",
+  "name": "monorepo",
+  "private": true,
+  "scripts": {},
+  "version": "0.0.1",
+  "workspaces": {
+    "nohoist": [
+      "**/@types/mocha",
+      "**/@types/jest**"
+    ],
+    "packages": [
+      "packages/transport",
+      "packages/content",
+      "packages/consumption",
+      "packages/runtime",
+      "packages/app-runtime"
+    ]
+  }
+}

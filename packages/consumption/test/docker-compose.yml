@@ -1,0 +1,19 @@
+services:
+  consumptionlib-mongo:
+    container_name: consumptionlib-mongo
+    image: mongo
+    logging:
+      driver: "none"
+    ports:
+      - 27027:27017
+
+  consumptionlib-ferret:
+    image: ghcr.io/ferretdb/ferretdb:latest
+    container_name: consumptionlib-ferretdb
+    ports:
+      - "27028:27017"
+    environment:
+      FERRETDB_HANDLER: sqlite
+      FERRETDB_SQLITE_URL: file:./
+      FERRETDB_TELEMETRY: disable
+      FERRETDB_LOG_LEVEL: error

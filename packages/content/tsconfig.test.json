@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "target": "es2021",
+        "module": "commonjs",
+        "sourceMap": true,
+        "declaration": true,
+        "outDir": "dist-test",
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "emitDecoratorMetadata": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": false,
+        "downlevelIteration": true,
+        "noImplicitOverride": true,
+        "lib": ["es2021", "dom"],
+        "typeRoots": ["./node_modules/@types"],
+        "baseUrl": "./test",
+        "paths": {
+            "@vermascht/content": ["../dist"]
+        }
+    },
+    "include": ["test/**/*.ts"],
+    "exclude": ["node_modules"]
+}

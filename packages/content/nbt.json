@@ -1,0 +1,26 @@
+{
+    "testFolder": "./lib-web",
+    "runners": [
+        {
+            "dependencies": [
+                "tsserval.js",
+                "nmshd.crypto.js",
+                "nmshd.transport.js",
+                "nmshd.content.js",
+                "nmshd.content.test.js"
+            ],
+            "globals": ["TSServal", "NMSHDCrypto", "NMSHDTransport", "NMSHDContent", "NMSHDContentTest"]
+        },
+        {
+            "dependencies": [
+                "tsserval.js",
+                "nmshd.crypto.min.js",
+                "nmshd.transport.min.js",
+                "nmshd.content.min.js",
+                "nmshd.content.test.js"
+            ],
+            "globals": ["TSServal", "NMSHDCrypto", "NMSHDTransport", "NMSHDContent", "NMSHDContentTest"]
+        }
+    ],
+    "additionalScripts": []
+}
