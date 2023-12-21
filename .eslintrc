@@ -1,8 +1,8 @@
 {
-    "extends": ["@js-soft/ts"],
+    "extends": ["@js-soft/ts", "@js-soft/ts/mocha"],
     "parserOptions": {
         "project": ["./packages/*/tsconfig.json", "./packages/*/test/tsconfig.json"]
     },
-    "ignorePatterns": ["jest.config.js"],
+    "ignorePatterns": ["jest.config.js", "Schemas.ts"],
     "rules": {}
 }

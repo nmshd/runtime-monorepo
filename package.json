@@ -19,7 +19,7 @@
         ]
     },
     "scripts": {
-        "lint:eslint": "eslint --ext .ts ./packages/*/src ./packages/*/test",
+        "lint:eslint": "eslint --ext .ts ./packages/*/src #./packages/*/test omitted due to incompatabilites of mocha and jest",
         "lint:prettier": "prettier --check ."
     },
     "devDependencies": {
