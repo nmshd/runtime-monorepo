@@ -36,7 +36,8 @@
         "test:local:ferretdb": ". scripts/testSetupFerret.sh && jest",
         "test:local:lokijs": "USE_LOKIJS=true jest",
         "test:local:mongodb": ". scripts/testSetup.sh && jest",
-        "test:local:teardown": "docker compose -p runtime-tests -f test/docker-compose.yml down -v"
+        "test:local:teardown": "docker compose -p runtime-tests -f test/docker-compose.yml down -v",
+        "publish": ". ./.ci/publish.sh"
     },
     "jest": {
         "maxWorkers": 1,

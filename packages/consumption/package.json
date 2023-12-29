@@ -43,7 +43,8 @@
         "test:node:lokijs": "mocha -r ts-node/register -r tsconfig-paths/register ./test/index.node.loki.ts --project ./test/tsconfig.json --exit",
         "test:node:mongodb": "mocha -r ts-node/register -r tsconfig-paths/register ./test/index.node.mongo.ts --project ./test/tsconfig.json --exit",
         "test:web": "browsertest-runner",
-        "test:web:debug": "browsertest-runner --debug"
+        "test:web:debug": "browsertest-runner --debug",
+        "publish": ". ./.ci/publish.sh"
     },
     "dependencies": {
         "@js-soft/docdb-querytranslator": "^1.1.2",

@@ -32,7 +32,8 @@
         "test": "npm run test:node && npm run test:web",
         "test:node": "mocha -r ts-node/register -r tsconfig-paths/register ./test/index.ts --project ./test/tsconfig.json --exit",
         "test:web": "browsertest-runner",
-        "test:web:debug": "browsertest-runner --debug"
+        "test:web:debug": "browsertest-runner --debug",
+        "publish": ". ./.ci/publish.sh"
     },
     "dependencies": {
         "@js-soft/docdb-access-loki": "^1.0.5",

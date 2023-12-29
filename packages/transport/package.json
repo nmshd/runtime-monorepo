@@ -49,7 +49,8 @@
         "test:performance:kube:stop": "kubectl delete -f ./test/performance/k8s.yaml",
         "test:web": "browsertest-runner -c nbt.json -p 9515",
         "test:web:min": "browsertest-runner -c nbt.min.json -p 9515",
-        "test:web:server": "browsertest-runner-debug"
+        "test:web:server": "browsertest-runner-debug",
+        "publish": ". ./.ci/publish.sh"
     },
     "dependencies": {
         "@js-soft/docdb-access-abstractions": "1.0.2",

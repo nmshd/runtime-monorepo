@@ -35,7 +35,8 @@
         "test:local:node": "npm run test:node",
         "test:node": "mocha -r ts-node/register -r tsconfig-paths/register ./test/index.ts --project ./test/tsconfig.json --exit",
         "test:web": "browsertest-runner",
-        "test:web:debug": "browsertest-runner --debug"
+        "test:web:debug": "browsertest-runner --debug",
+        "publish": ". ./.ci/publish.sh"
     },
     "dependencies": {
         "@js-soft/logging-abstractions": "^1.0.1",
